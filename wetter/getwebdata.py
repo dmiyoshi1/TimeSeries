@@ -6,29 +6,38 @@ import urllib.parse
 class GetWebData:
     def __init__(self, url):
         self.url = url
-        self.zip_files_list = {}
+        self.zip_files_dict = {}
 
     def list_zip_files(self, href_list):
-        # Move the check for already downloaded data to the main script
-        # use: res = [x for x in webdata if x not in rawdata]
+        href_dict = {}        
 
         for link in href_list:
             file_name = link['href'].rsplit('/', 1)[-1]
-            self.zip_files_list[file_name] = urllib.parse.urljoin(self.url, link['href'])
+            href_dict[file_name] = urllib.parse.urljoin(self.url, link['href'])
             # if the href begins with a '/' then it is an absolute path
             # if the href does not begin with a '/' then it is a relative path
 
+        return href_dict
+
     def download_zip_files(self, rawdata_files):
-        if len(name_of_zip_files) == 0:
+        for rfile in rawdata_files:
+            if rfile in self.zip_files_dict:
+                self.zip_files_dict.pop(rfile)
+
+        if len(self.zip_files_dict) == 0:
             print("Nothing new to download")
         else:
-            for place in range(len(ziplinks)):
-                print("Attempting to download {0}".format(name_of_zip_files[place].rsplit('/', 1)[-1]))
-                content = requests.get(ziplinks[place]).content
-                with open(name_of_zip_files[place], 'wb') as f:
+            ddir = os.getcwd() + '/RawData'
+            for dfile in self.zip_files_dict:
+                fname = dfile.rsplit('/', 1)[-1]
+                print("Attempting to download {0}".format(fname))
+                '''
+                content = requests.get(self.zip_files_dict[dfile]).content
+                with open(ddir + '/' + fname, 'wb') as f:
                     f.write(content)
                 f.close()
-                print("Successfully downloaded {0}".format(name_of_zip_files[place].rsplit('/', 1)[-1]))
+                print("Successfully downloaded {0}".format(fname))
+                '''
     
     def webdata_from_table(self, tablenum, rownum, cellnum):
         try:
@@ -42,5 +51,5 @@ class GetWebData:
 
         rows = tables[tablenum].findChildren('tr')
         cells = rows[rownum].findChildren('td')
-        self. list_zip_files(cells[cellnum].findChildren('a'))
+        self.zip_files_dict = self.list_zip_files(cells[cellnum].findChildren('a'))
 
