@@ -9,20 +9,29 @@ import (
 )
 
 func main() {
-	mycwd, err := os.Getwd()
-	myRawData := mycwd + "/RawData"
-	if _, err = os.Stat(myRawData); err != nil {
-		fmt.Println("Doesn't Exist")
-		fmt.Println("Creating the RawData directory")
-		os.MkdirAll(myRawData, 0755)
+	myRawData := "/Users/dennismiyoshi/github/TimeSeries/RawData"
+	localDataList := listLocalData(myRawData)
+	for i, nm := range localDataList {
+		fmt.Println(i, nm)
 	}
-	if files, err := ioutil.ReadDir(myRawData); err != nil {
+}
+
+func listLocalData(path string) []string {
+	var fname []string
+	if _, err := os.Stat(path); err != nil {
+		fmt.Printf("Doesn't Exist\nCreating the RawData directory")
+		os.MkdirAll(path, 0755)
+	}
+	if files, err := ioutil.ReadDir(path); err != nil {
 		log.Fatal(err)
+		return fname
 	} else {
 		for _, f := range files {
 			fileExtension := filepath.Ext(f.Name())
-			fmt.Printf("File %s has extenstion %s\n", f.Name(), fileExtension)
-			fmt.Println(f.Name())
+			if fileExtension == ".zip" {
+				fname = append(fname, f.Name())
+			}
 		}
+		return fname
 	}
 }
