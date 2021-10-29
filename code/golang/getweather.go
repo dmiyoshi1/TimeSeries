@@ -18,11 +18,13 @@ import (
 func main() {
 	myRawDataDir := "/Users/dennismiyoshi/github/TimeSeries/RawData"
 	// use locahost with simply pyserver.py to test the code
-	// webcrawl := "http://localhost/wetter/weather_data.html"
-	webcrawl := "https://www.bgc-jena.mpg.de/wetter/weather_data.html"
+	webcrawl := "http://localhost/wetter/weather_data.html"
+	// webcrawl := "https://www.bgc-jena.mpg.de/wetter/weather_data.html"
 	localdataslice := listLocalData(myRawDataDir)
 
 	crawl(webcrawl, localdataslice, myRawDataDir)
+
+	fmt.Println("Done crawling...  Maybe I'll run next time.  :)")
 }
 
 func contains(s []string, str string) bool {
@@ -40,11 +42,12 @@ func contains(s []string, str string) bool {
 func getDownloadUrl(uri string, href string) string {
 	u, _ := url.Parse(uri)
 	fmt.Println(u.Host)
-	var validId = regexp.MustCompile(`^[/].*`)
+	// var validId = regexp.MustCompile(`^[/].*`)
 
 	// if the first character in href is '/' then this is an absolute path
 	// else it's relative
-	if validId.MatchString(href) {
+	// if validId.MatchString(href) {
+	if strings.HasPrefix(href, "/") {
 		u.Path = href
 		return u.String()
 	} else {
