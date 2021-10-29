@@ -42,11 +42,9 @@ func contains(s []string, str string) bool {
 func getDownloadUrl(uri string, href string) string {
 	u, _ := url.Parse(uri)
 	fmt.Println(u.Host)
-	// var validId = regexp.MustCompile(`^[/].*`)
 
 	// if the first character in href is '/' then this is an absolute path
 	// else it's relative
-	// if validId.MatchString(href) {
 	if strings.HasPrefix(href, "/") {
 		u.Path = href
 		return u.String()
