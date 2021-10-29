@@ -1,8 +1,9 @@
 # TimeSeries
-A repository to help learn about time series computations.
 
-The crawler pulls data from the Max Planck Institute in Jena, Deutscheland.
+A repository with code to help learn about time series computations and machine learning.
 
-Code for Python (needs a rework) is placed in code/python
+The crawler pulls data from the Max Planck Institute for Biogeochemistry in Thuringia, Germany. Several Machine Learning tutorials use weather data from this site.
 
-Code for Go is placed in code/golang
+## What's in the directories.
+* Code for Python (needs a rework) is placed in code/python
+* Code for Go is placed in code/golang
