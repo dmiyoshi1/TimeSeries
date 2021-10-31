@@ -9,7 +9,6 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -126,7 +125,6 @@ func crawl(uri string, localdataslice []string, localRawDataDir string) {
 	b := resp.Body
 	defer b.Close() // close Body when the function completes
 
-	var validId = regexp.MustCompile(`^(/mpi_roof_2|mpi_roof_2).*(.zip)$`)
 	z := html.NewTokenizer(b)
 
 	for {
@@ -149,7 +147,9 @@ func crawl(uri string, localdataslice []string, localRawDataDir string) {
 			if isAnchor := t.Data == "a"; isAnchor {
 				// Extract the href value, if there is one
 				if ok, href := getHref(t); ok {
-					if validId.MatchString(href) && !contains(localdataslice, href) {
+					if ((strings.HasPrefix(href, "/mpi_roof_2") || strings.HasPrefix(href, "mpi_roof_2")) &&
+						strings.HasSuffix(href, ".zip")) &&
+						!contains(localdataslice, href) {
 						fmt.Println("Downloading", href)
 						success, fsize := getTheFile(href, getDownloadUrl(uri, href), localRawDataDir)
 						if success {

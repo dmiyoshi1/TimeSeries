@@ -1,29 +1,47 @@
 import os
+import sys
 import zipfile
 import pandas as pd
 import re
 
-dirlist = os.listdir()
-ziplist = []
-for file in dirlist:
-    if '.zip' in file and file != 'mpi_roof.zip':
-        ziplist.append(file)
+def main(): 
+    myRawDataDir = "/Users/dennismiyoshi/github/TimeSeries/RawData"
+    myWorkingDir = "/Users/dennismiyoshi/github/TimeSeries/Working"
 
-# print(ziplist)
-ziplist.sort()
-# print(ziplist)
-path_to_files = os.getcwd()
-for f in ziplist:
-    with zipfile.ZipFile(path_to_files + '/' + f, 'r') as zip_ref:
-        zip_ref.extractall(path_to_files)
+    # Make sure our working directory exists or exit
+    try:
+        if not os.path.exists(myWorkingDir):
+            os.makedirs(myWorkingDir)
+    except:
+        print("There is a problem with the working directory")
+        sys.exit(1)
 
-dirlist = os.listdir()
-csvlist = []
+    # chdir to the raw data directory. if this fails then exit
+    try:
+        os.chdir(myRawDataDir)
+    except:
+        print("Could not chdir to {0}".format(myRawDataDir))
+        sys.exit(1)
 
-for file in dirlist:
-    if '.csv' in file and re.match(r'.*_2....\.zip', file):
-        csvlist.append(file)
-csvlist.sort()
+    # List all of the zip files in the raw data dir
+    # avoid the mpi_roof.zip file because we want the static data
+    dirlist = os.listdir()
+    for file in dirlist:
+        if '.zip' in file and file != 'mpi_roof.zip':
+            zipfile.ZipFile(file, 'r').extractall(myWorkingDir)
 
-df = pd.concat([pd.read_csv(f, encoding='iso-8859-1') for f in csvlist])
-df.to_csv('roof.csv', index=False, encoding='utf-8')
+    csvlist = []
+    os.chdir(myWorkingDir)
+    dirlist = os.listdir()
+    for file in dirlist:
+        if '.csv' in file:
+            csvlist.append(file)
+    csvlist.sort()
+
+    '''
+    df = pd.concat([pd.read_csv(f, encoding='iso-8859-1') for f in csvlist])
+    df.to_csv('roof.csv', index=False, encoding='utf-8')
+    '''
+
+if __name__ == "__main__":
+    main()
