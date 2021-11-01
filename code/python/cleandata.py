@@ -7,6 +7,7 @@ import re
 def main(): 
     myRawDataDir = "/Users/dennismiyoshi/github/TimeSeries/RawData"
     myWorkingDir = "/Users/dennismiyoshi/github/TimeSeries/Working"
+    tensorDataDir = "/Users/dennismiyoshi/LabFolder/Weather"
 
     # Make sure our working directory exists or exit
     try:
@@ -38,10 +39,8 @@ def main():
             csvlist.append(file)
     csvlist.sort()
 
-    '''
     df = pd.concat([pd.read_csv(f, encoding='iso-8859-1') for f in csvlist])
-    df.to_csv('roof.csv', index=False, encoding='utf-8')
-    '''
+    df.to_csv(tensorDataDir + '/roof.csv', index=False, encoding='utf-8')
 
 if __name__ == "__main__":
     main()
