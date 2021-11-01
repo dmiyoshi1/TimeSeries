@@ -4,15 +4,14 @@ from getrawdata import GetRawData
 from getwebdata import GetWebData
 
 def main():
-    URL = "https://www.bgc-jena.mpg.de/wetter/weather_data.html"
-    '''
-    # URL = "http://localhost/wetter/weather_data.html"
-    '''
-    rdata = GetRawData()
+    # URL = "https://www.bgc-jena.mpg.de/wetter/weather_data.html"
+    URL = "http://localhost/wetter/weather_data.html"
+
+    myRawDataDir = "/Users/dennismiyoshi/github/TimeSeries/RawData"
+    rdata = GetRawData(myRawDataDir)
     rawdata = rdata.list_rawdata_files()
     wdata = GetWebData(URL)
-    wdata.webdata_from_table(1,1,0)
-    wdata.download_zip_files(rawdata)
+    wdata.get_hrefs(myRawDataDir, rawdata)
     print("Done")
 
 if __name__ == "__main__":
