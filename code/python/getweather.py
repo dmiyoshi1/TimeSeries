@@ -5,7 +5,7 @@ from getwebdata import GetWebData
 
 def main():
     # URL = "https://www.bgc-jena.mpg.de/wetter/weather_data.html"
-    URL = "http://localhost/wetter/weather_data.html"
+    URL = "http://localhost:8080/wetter/weather_data.html"
 
     myRawDataDir = "/Users/dennismiyoshi/github/TimeSeries/RawData"
     rdata = GetRawData(myRawDataDir)

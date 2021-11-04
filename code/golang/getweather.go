@@ -17,7 +17,7 @@ import (
 func main() {
 	myRawDataDir := "/Users/dennismiyoshi/github/TimeSeries/RawData"
 	// use locahost with simply pyserver.py to test the code
-	webcrawl := "http://localhost/wetter/weather_data.html"
+	webcrawl := "http://localhost:8080/wetter/weather_data.html"
 	// webcrawl := "https://www.bgc-jena.mpg.de/wetter/weather_data.html"
 	localdataslice := listLocalData(myRawDataDir)
 
