@@ -1,4 +1,6 @@
 wetter/*.zip
 wetter/RawData
+wetter/roof.csv
+wetter/roof.csv.tmp
 RawData
 Working
